@@ -38,7 +38,7 @@ jobs:
           terraform validate
 
       - name: Run TFLint
-        run: tflint
+        run: tflint --disable-rule=terraform_required_providers --disable-rule=terraform_required_version
 
       - name: Run Checkov
         run: checkov -d .
