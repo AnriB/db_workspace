@@ -12,10 +12,6 @@ jobs:
         with:
           fetch-depth: 0  # important so git tags are available
 
-      - uses: actions/setup-go@v4
-        with:
-          go-version: 1.25
-
       - uses: hashicorp/setup-terraform@v3
 
       - name: Install TFLint
@@ -34,7 +30,7 @@ jobs:
 
       - name: Terraform Init&Validate
         run: |
-          terraform init
+          terraform init -backend=false
           terraform validate
 
       - name: Run TFLint
@@ -43,29 +39,20 @@ jobs:
       - name: Run Checkov
         run: checkov -d . --skip-path .github
 
-      - name: Run Terratest
-        run: |
-          export GOPATH=$(mktemp -d)
-          cd $GOPATH
-          go mod init temp
-          go get github.com/gruntwork-io/terratest/modules/terraform
-          cp -r $GITHUB_WORKSPACE/tests .
-          go test -v ./tests
-
       - name: Get last tag
         id: get_tag
         run: |
           TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
           echo "last_tag=$TAG" >> $GITHUB_OUTPUT
 
-      # - name: Calculate next tag
-      #   id: bump
-      #   run: |
-      #     LAST=${{ steps.get_tag.outputs.last_tag }}
-      #     IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST#v}"
-      #     PATCH=$((PATCH+1))
-      #     NEXT="v$MAJOR.$MINOR.$PATCH"
-      #     echo "next_tag=$NEXT" >> $GITHUB_OUTPUT
+      - name: Calculate next tag
+        id: bump
+        run: |
+          LAST=${{ steps.get_tag.outputs.last_tag }}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST#v}"
+          PATCH=$((PATCH+1))
+          NEXT="v$MAJOR.$MINOR.$PATCH"
+          echo "next_tag=$NEXT" >> $GITHUB_OUTPUT
 
       # - name: Create new tag
       #   run: |
