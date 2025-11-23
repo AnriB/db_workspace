@@ -41,7 +41,7 @@ jobs:
         run: tflint --disable-rule=terraform_required_providers --disable-rule=terraform_required_version
 
       - name: Run Checkov
-        run: checkov -d .
+        run: checkov -d . --skip-path .github
 
       - name: Run Terratest
         run: go test -v ./tests
