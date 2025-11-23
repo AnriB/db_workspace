@@ -44,7 +44,12 @@ jobs:
         run: checkov -d . --skip-path .github
 
       - name: Run Terratest
-        run: go test -v ./tests
+        run: |
+          export GOPATH=$(mktemp -d)
+          cp -r ./tests $GOPATH/src/temp
+          cd $GOPATH/src/temp
+          go get github.com/gruntwork-io/terratest/modules/terraform
+          go test -v .
 
       - name: Get last tag
         id: get_tag
