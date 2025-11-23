@@ -46,11 +46,11 @@ jobs:
       - name: Run Terratest
         run: |
           export GOPATH=$(mktemp -d)
-          mkdir -p $GOPATH/src/temp
-          cp -r ./tests $GOPATH/src/temp
-          cd $GOPATH/src/temp
+          cd $GOPATH
+          go mod init temp
           go get github.com/gruntwork-io/terratest/modules/terraform
-          go test -v .
+          cp -r $GITHUB_WORKSPACE/tests .
+          go test -v ./tests
 
       - name: Get last tag
         id: get_tag
