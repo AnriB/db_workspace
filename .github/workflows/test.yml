@@ -9,5 +9,5 @@ permissions:
   contents: write
 
 jobs:
-  call-template:
+  release-tf-module:
     uses: AnriB/templates/.github/workflows/tf-module-tag-template.yml@main
