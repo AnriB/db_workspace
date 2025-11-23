@@ -29,3 +29,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "public_network_access_enabled" {
+  description = "Enable or disable public network access for the Databricks workspace."
+  type        = bool
+  default     = false
+}
+
+variable "network_security_group_rules_required" {
+  description = "Indicates whether network security group rules are required for the Databricks workspace."
+  type        = string
+  default     = "AllRules"
+}
