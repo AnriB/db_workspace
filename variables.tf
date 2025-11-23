@@ -16,7 +16,7 @@ variable "location" {
 variable "databricks_sku" {
   description = "The SKU of the Databricks workspace."
   type        = string
-default = "value"
+  default     = "value"
 }
 
 variable "managed_resource_group_name" {
@@ -27,5 +27,5 @@ variable "managed_resource_group_name" {
 variable "tags" {
   description = "A map of tags to assign to the Databricks workspace."
   type        = map(string)
-  default     = {}  
+  default     = {}
 }
