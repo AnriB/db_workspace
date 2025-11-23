@@ -18,6 +18,30 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
 
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          tflint --version
+
+      - name: Install Checkov
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install checkov
+          checkov --version
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform IValidate
+        run: |
+          terraform validate
+
+      - name: Run TFLint
+        run: tflint
+
+      - name: Run Checkov
+        run: checkov -d .
+
       - name: Run Terratest
         run: go test -v ./tests
 
@@ -27,23 +51,23 @@ jobs:
           TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
           echo "last_tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Calculate next tag
-        id: bump
-        run: |
-          LAST=${{ steps.get_tag.outputs.last_tag }}
-          IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST#v}"
-          PATCH=$((PATCH+1))
-          NEXT="v$MAJOR.$MINOR.$PATCH"
-          echo "next_tag=$NEXT" >> $GITHUB_OUTPUT
+      # - name: Calculate next tag
+      #   id: bump
+      #   run: |
+      #     LAST=${{ steps.get_tag.outputs.last_tag }}
+      #     IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST#v}"
+      #     PATCH=$((PATCH+1))
+      #     NEXT="v$MAJOR.$MINOR.$PATCH"
+      #     echo "next_tag=$NEXT" >> $GITHUB_OUTPUT
 
-      - name: Create new tag
-        run: |
-          git tag ${{ steps.bump.outputs.next_tag }}
-          git push origin ${{ steps.bump.outputs.next_tag }}
+      # - name: Create new tag
+      #   run: |
+      #     git tag ${{ steps.bump.outputs.next_tag }}
+      #     git push origin ${{ steps.bump.outputs.next_tag }}
 
-      - name: Publish Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.bump.outputs.next_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Publish Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     tag_name: ${{ steps.bump.outputs.next_tag }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
