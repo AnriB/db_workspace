@@ -46,6 +46,7 @@ jobs:
       - name: Run Terratest
         run: |
           export GOPATH=$(mktemp -d)
+          mkdir -p $GOPATH/src/temp
           cp -r ./tests $GOPATH/src/temp
           cd $GOPATH/src/temp
           go get github.com/gruntwork-io/terratest/modules/terraform
