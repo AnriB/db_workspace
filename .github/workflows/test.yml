@@ -10,4 +10,4 @@ permissions:
 
 jobs:
   call-template:
-    uses: AnriB/templates/terraform/tf-module-tag.yml@main
+    uses: AnriB/templates/.github/workflows/terraform/tf-module-tag-template.yml@main
