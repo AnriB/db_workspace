@@ -1,4 +1,4 @@
-name: Test & Release ${{ github.repository_name }} Module
+name: Test & Release Module
 on:
   push:
     branches:
