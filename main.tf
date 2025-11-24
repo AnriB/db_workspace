@@ -81,8 +81,8 @@ resource "azurerm_key_vault_access_policy" "databricks" {
   for_each     = var.customer_managed_key_enabled ? { create = true } : {}
   depends_on   = [azurerm_databricks_workspace.workspace]
   key_vault_id = data.azurerm_key_vault.kv.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_databricks_workspace.workspace.identity[0].principal_id
+  tenant_id    = azurerm_databricks_workspace.workspace.storage_account_identity.tenant_id
+  object_id    = azurerm_databricks_workspace.workspace.storage_account_identity.principal_id
   key_permissions = [
     "Create",
     "Delete",
