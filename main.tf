@@ -12,16 +12,16 @@ resource "azurerm_databricks_workspace" "workspace" {
 ### User management ###
 
 # Assign admin permissions to specified groups
-resource "databricks_mws_permission_assignement" "admins" {
-  for_each     = var.admins
+resource "databricks_mws_permission_assignment" "admins" {
+  for_each     = toset(var.admins)
   workspace_id = azurerm_databricks_workspace.workspace.id
   principal_id = data.databricks_group.admins[each.value].id
   permissions  = ["ADMIN"]
 }
 
 # Assign user permissions to specified groups
-resource "databricks_mws_permission_assignement" "users" {
-  for_each     = var.users
+resource "databricks_mws_permission_assignment" "users" {
+  for_each     = toset(var.users)
   workspace_id = azurerm_databricks_workspace.workspace.id
   principal_id = data.databricks_group.users[each.value].id
   permissions  = ["USER"]
