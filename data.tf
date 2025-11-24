@@ -26,3 +26,11 @@ data "databricks_group" "users" {
   for_each     = toset(var.users)
   display_name = each.value
 }
+
+# DBFS encryption
+data "azurerm_client_config" "current" {}
+
+data "azurerm_key_vault" "kv" {
+  name                = var.key_vault_name
+  resource_group_name = var.resource_group_name
+}

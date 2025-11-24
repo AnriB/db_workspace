@@ -79,3 +79,8 @@ variable "users" {
   type        = list(string)
   default     = []
 }
+
+variable "key_vault_name" {
+  description = "The name of the Key Vault for DBFS encryption."
+  type        = string
+}
