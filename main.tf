@@ -6,7 +6,14 @@ resource "azurerm_databricks_workspace" "workspace" {
   managed_resource_group_name           = var.managed_resource_group_name
   public_network_access_enabled         = var.public_network_access_enabled
   network_security_group_rules_required = var.network_security_group_rules_required
-  tags                                  = var.tags
+  custom_parameters {
+    public_subnet_name                                   = var.public_subnet_name
+    public_subnet_network_security_group_association_id  = data.azurerm_subnet.public_subnet.id
+    private_subnet_name                                  = var.private_subnet_name
+    private_subnet_network_security_group_association_id = data.azurerm_subnet.private_subnet.id
+    virtual_network_id                                   = data.azurerm_virtual_network.vnet.id
+  }
+  tags = var.tags
 }
 
 ### User management ###

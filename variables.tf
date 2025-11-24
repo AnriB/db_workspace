@@ -14,9 +14,9 @@ variable "location" {
 }
 
 variable "databricks_sku" {
-  description = "The SKU of the Databricks workspace."
+  description = "The SKU of the Databricks workspace. From 2026 all Databricks workspaces will default to 'premium'."
   type        = string
-  default     = "value"
+  default     = "premium"
 }
 
 variable "managed_resource_group_name" {
@@ -40,6 +40,26 @@ variable "network_security_group_rules_required" {
   description = "Indicates whether network security group rules are required for the Databricks workspace."
   type        = string
   default     = "AllRules"
+}
+
+variable "vnet_resource_group_name" {
+  description = "The name of the resource group where the existing virtual network is located."
+  type        = string
+}
+
+variable "virtual_network_name" {
+  description = "The name of the existing virtual network to associate with the Databricks workspace."
+  type        = string
+}
+
+variable "public_subnet_name" {
+  description = "The name of the public subnet within the virtual network."
+  type        = string
+}
+
+variable "private_subnet_name" {
+  description = "The name of the private subnet within the virtual network."
+  type        = string
 }
 
 variable "admins" {
