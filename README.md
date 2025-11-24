@@ -1,2 +1,2 @@
 # db_workspace
-Terraform module that provisions a DataBricks workspace
+Terraform module that provisions an Azure DataBricks workspace with basic user management.
