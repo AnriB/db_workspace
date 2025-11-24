@@ -6,6 +6,7 @@ resource "azurerm_databricks_workspace" "workspace" {
   managed_resource_group_name           = var.managed_resource_group_name
   public_network_access_enabled         = var.public_network_access_enabled
   network_security_group_rules_required = var.network_security_group_rules_required
+  customer_managed_key_enabled          = var.customer_managed_key_enabled
   custom_parameters {
     public_subnet_name                                   = var.public_subnet_name
     public_subnet_network_security_group_association_id  = data.azurerm_subnet.public_subnet.id

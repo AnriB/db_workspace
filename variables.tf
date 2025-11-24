@@ -24,6 +24,12 @@ variable "managed_resource_group_name" {
   type        = string
 }
 
+variable "customer_managed_key_enabled" {
+  description = "Enable or disable customer managed keys for the Databricks workspace."
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "A map of tags to assign to the Databricks workspace."
   type        = map(string)
