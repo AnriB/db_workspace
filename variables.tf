@@ -41,3 +41,15 @@ variable "network_security_group_rules_required" {
   type        = string
   default     = "AllRules"
 }
+
+variable "admins" {
+  description = "A list of Databricks admin group display names."
+  type        = list(string)
+  default     = []
+}
+
+variable "users" {
+  description = "A list of Databricks user group display names."
+  type        = list(string)
+  default     = []
+}

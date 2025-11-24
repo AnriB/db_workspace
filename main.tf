@@ -8,3 +8,21 @@ resource "azurerm_databricks_workspace" "workspace" {
   network_security_group_rules_required = var.network_security_group_rules_required
   tags                                  = var.tags
 }
+
+### User management ###
+
+# Assign admin permissions to specified groups
+resource "databricks_mws_permission_assignement" "admins" {
+  for_each     = var.admins
+  workspace_id = azurerm_databricks_workspace.workspace.id
+  principal_id = data.databricks_group.admins[each.value].id
+  permissions  = ["ADMIN"]
+}
+
+# Assign user permissions to specified groups
+resource "databricks_mws_permission_assignement" "users" {
+  for_each     = var.users
+  workspace_id = azurerm_databricks_workspace.workspace.id
+  principal_id = data.databricks_group.users[each.value].id
+  permissions  = ["USER"]
+}

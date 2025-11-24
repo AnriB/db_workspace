@@ -1,0 +1,9 @@
+data "databricks_group" "admins" {
+  for_each     = var.admins
+  display_name = each.value
+}
+
+data "databricks_group" "users" {
+  for_each     = var.users
+  display_name = each.value
+}
