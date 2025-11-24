@@ -44,11 +44,12 @@ resource "azurerm_databricks_workspace_root_dbfs_customer_managed_key" "managed_
 }
 
 resource "azurerm_key_vault_key" "dbfs" {
-  for_each     = var.customer_managed_key_enabled ? { create = true } : {}
-  name         = "dbfs-encryption-key"
-  key_vault_id = data.azurerm_key_vault.kv.id
-  key_type     = "RSA"
-  key_size     = 2048
+  for_each        = var.customer_managed_key_enabled ? { create = true } : {}
+  name            = "dbfs-encryption-key"
+  key_vault_id    = data.azurerm_key_vault.kv.id
+  expiration_date = timeadd(timestamp(), "60d") # 60 days
+  key_type        = "RSA-HSM"
+  key_size        = 2048
   key_opts = [
     "decrypt",
     "encrypt",
